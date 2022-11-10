@@ -8,7 +8,7 @@ object dmRavin: TdmRavin
       'Database=ravin'
       'User_Name=root'
       'Server=localhost'
-      'Password=132600'
+      'Password=root'
       'DriverID=MySQL')
     UpdateOptions.AssignedValues = [uvUpdateMode]
     Connected = True
@@ -16,7 +16,7 @@ object dmRavin: TdmRavin
     Top = 24
   end
   object drvBancoDeDados: TFDPhysMySQLDriverLink
-    VendorLib = 'C:\projects\ravin\bibliotecas\libmysql.dll'
+    VendorLib = 'C:\Users\murilobatista\Documents\ravin\bibliotecas\libmysql.dll'
     Left = 40
     Top = 80
   end

@@ -1,0 +1,37 @@
+
+/*
+1.Listar o código das mesas juntamente com o nome dos 
+atendentes responsáveis por cada mesa (apenas as 
+mesas que contém atendente);
+*/
+select mesa.codigo, pessoa.nome from mesa
+inner join pessoa on mesa.atendenteId = pessoa.id;
+
+
+/*
+2. Listar as comandas com seus produtos mostrando o 
+código da comanda e o nome do produto;
+*/
+select comanda.codigo, produto.nome from comanda
+left join comandaproduto on comandaproduto.comandaId = comanda.id
+left join produto on comandaproduto.produtoId = produto.id;
+
+
+/*
+3. Listar as comandas mostrando o valor total de cada 
+comanda;
+*/
+select comanda.codigo, sum(comandaProduto.valorTotal) from comanda
+join comandaproduto on comandaproduto.comandaId = comanda.id group by comanda.codigo;
+
+
+/*
+4. Buscar a comanda que teve a maior valor, mostrando o 
+código da comanda, o valor da comanda e o nome do 
+atendente responsável por aquela comanda
+*/
+select comanda.codigo  as 'CODIGO COMANDA', pessoa.nome as 'ATENDENTE', mesa.nome 'MESA', max(comanda.valor) as 'VALOR' 
+from comanda
+join comandaProduto on comandaProduto.comandaId = comanda.id
+join mesa on comanda.mesaId = mesa.id
+join pessoa on mesa.atendenteId = pessoa.Id;
