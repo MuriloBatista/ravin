@@ -8,7 +8,7 @@ uses
   FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.MySQL,
   FireDAC.Phys.MySQLDef, FireDAC.VCLUI.Wait, Data.DB, FireDAC.Comp.Client,
   FireDAC.Comp.UI, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
-  FireDAC.DApt, FireDAC.Comp.DataSet;
+  FireDAC.DApt, FireDAC.Comp.DataSet, Vcl.Dialogs;
 
 type
   TdmRavin = class(TDataModule)
@@ -16,8 +16,12 @@ type
     drvBancoDeDados: TFDPhysMySQLDriverLink;
     wtcBancoDeDados: TFDGUIxWaitCursor;
     procedure DataModuleCreate(Sender: TObject);
+    procedure cnxBancoDeDadosBeforeConnect(Sender: TObject);
+    procedure cnxBancoDeDadosAfterConnect(Sender: TObject);
   private
     { Private declarations }
+    procedure CriarTabelas();
+    procedure InserirDados();
   public
     { Public declarations }
   end;
@@ -28,12 +32,89 @@ var
 implementation
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
-
 {$R *.dfm}
+
+procedure TdmRavin.cnxBancoDeDadosAfterConnect(Sender: TObject);
+var
+  LCriarBaseDados: Boolean;
+begin
+  LCriarBaseDados := not FileExists
+    ('C:\ProgramData\MySQL\MySQL Server 8.0\Data\ravin\pessoa.ibd');
+
+  if (LCriarBaseDados) then
+  begin
+    CriarTabelas;
+    InserirDados;
+  end;
+end;
+
+procedure TdmRavin.cnxBancoDeDadosBeforeConnect(Sender: TObject);
+var
+  LCriarBaseDados: Boolean;
+begin
+  LCriarBaseDados := not FileExists
+    ('C:\ProgramData\MySQL\MySQL Server 8.0\Data\ravin\pessoa.ibd');
+  with cnxBancoDeDados do
+  begin
+    Params.Values['Server'] := 'localhost';
+    Params.Values['User_Name'] := 'root';
+    Params.Values['Password'] := 'root';
+    Params.Values['DriverID'] := 'MySQL';
+    Params.Values['Port'] := '3306';
+
+    if not(LCriarBaseDados) then
+    begin
+      Params.Values['Database'] := 'ravin';
+    end;
+  end;
+end;
+
+procedure TdmRavin.CriarTabelas;
+var
+  LSqlArquivoScripts: TStringList;
+  LCaminhoArquivo: String;
+begin
+  LSqlArquivoScripts := TStringList.Create();
+  LCaminhoArquivo :=
+    'C:\Users\murilobatista\Documents\ravin\database\createTable.sql';
+  // NÃO DEVER SER FEITO ASSIM
+  LSqlArquivoScripts.LoadFromFile(LCaminhoArquivo);
+  cnxBancoDeDados.ExecSQL(LSqlArquivoScripts.Text);
+  FreeAndNil(LSqlArquivoScripts);
+end;
 
 procedure TdmRavin.DataModuleCreate(Sender: TObject);
 begin
-  cnxBancoDeDados.Connected := true;
+  if not(cnxBancoDeDados.Connected) then
+  begin
+    cnxBancoDeDados.Connected := true;
+  end;
+end;
+
+procedure TdmRavin.InserirDados;
+var
+  LSqlArquivoScripts: TStringList;
+  LCaminhoArquivo: String;
+begin
+  LSqlArquivoScripts := TStringList.Create();
+  LCaminhoArquivo :=
+    'C:\Users\murilobatista\Documents\ravin\database\inserts.sql';
+  // NÃO DEVER SER FEITO ASSIM
+  LSqlArquivoScripts.LoadFromFile(LCaminhoArquivo);
+
+  try
+    cnxBancoDeDados.StartTransaction();
+    cnxBancoDeDados.ExecSQL(LSqlArquivoScripts.Text);
+    cnxBancoDeDados.Commit();
+  except
+    on E: Exception do
+    begin
+      cnxBancoDeDados.Rollback();
+      ShowMessage(E.Message);
+    end;
+  end;
+
+  FreeAndNil(LSqlArquivoScripts);
 end;
 
 end.
