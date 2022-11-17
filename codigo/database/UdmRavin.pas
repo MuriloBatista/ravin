@@ -31,6 +31,9 @@ var
 
 implementation
 
+uses
+  UresourceUtils;
+
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 {$R *.dfm}
 
@@ -70,17 +73,15 @@ begin
 end;
 
 procedure TdmRavin.CriarTabelas;
-var
-  LSqlArquivoScripts: TStringList;
-  LCaminhoArquivo: String;
+
 begin
-  LSqlArquivoScripts := TStringList.Create();
-  LCaminhoArquivo :=
-    'C:\Users\murilobatista\Documents\ravin\database\createTable.sql';
-  // NÃO DEVER SER FEITO ASSIM
-  LSqlArquivoScripts.LoadFromFile(LCaminhoArquivo);
-  cnxBancoDeDados.ExecSQL(LSqlArquivoScripts.Text);
-  FreeAndNil(LSqlArquivoScripts);
+ try
+    cnxBancoDeDados.ExecSQL(TResourceUtils
+      .carregarArquivosResource('createTable.sql', 'rafui'));
+ except
+  on E: Exception do
+    ShowMessage(E.Message);
+ end;
 end;
 
 procedure TdmRavin.DataModuleCreate(Sender: TObject);
@@ -92,19 +93,11 @@ begin
 end;
 
 procedure TdmRavin.InserirDados;
-var
-  LSqlArquivoScripts: TStringList;
-  LCaminhoArquivo: String;
 begin
-  LSqlArquivoScripts := TStringList.Create();
-  LCaminhoArquivo :=
-    'C:\Users\murilobatista\Documents\ravin\database\inserts.sql';
-  // NÃO DEVER SER FEITO ASSIM
-  LSqlArquivoScripts.LoadFromFile(LCaminhoArquivo);
-
   try
     cnxBancoDeDados.StartTransaction();
-    cnxBancoDeDados.ExecSQL(LSqlArquivoScripts.Text);
+    cnxBancoDeDados.ExecSQL(TResourceUtils
+      .carregarArquivosResource('inserts.sql', 'rafui'));
     cnxBancoDeDados.Commit();
   except
     on E: Exception do
@@ -113,8 +106,6 @@ begin
       ShowMessage(E.Message);
     end;
   end;
-
-  FreeAndNil(LSqlArquivoScripts);
 end;
 
 end.
