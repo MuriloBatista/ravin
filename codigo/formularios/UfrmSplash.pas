@@ -44,7 +44,7 @@ implementation
 
 {$R *.dfm}
 
-uses UfrmPainelGestao;
+uses UfrmPainelGestao, UfrmLogin;
 
 procedure TfrmSplash.FormCreate(Sender: TObject);
 begin
@@ -60,13 +60,13 @@ end;
 
 procedure TfrmSplash.InicializeApplication;
 begin
-  if not Assigned(frmPainelGestao) then
+  if not Assigned(frmLogin) then
   begin
-    Application.CreateForm(TfrmPainelGestao, frmPainelGestao);
+    Application.CreateForm(TfrmLogin, frmLogin);
   end;
 
-  SetMainForm(frmPainelGestao);
-  frmPainelGestao.Show();
+  SetMainForm(frmLogin);
+  frmLogin.Show();
 
   Close;
 end;
