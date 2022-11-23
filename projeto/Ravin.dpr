@@ -15,7 +15,10 @@ uses
   UresourceUtils in '..\codigo\utils\UresourceUtils.pas',
   UfrmLogin in '..\codigo\formularios\UfrmLogin.pas' {frmLogin},
   Uusuario in '..\codigo\modelos\Uusuario.pas',
-  UusuarioDao in '..\codigo\dao\UusuarioDao.pas';
+  UusuarioDao in '..\codigo\dao\UusuarioDao.pas',
+  UfrmBotaoPrimario in '..\codigo\frames\UfrmBotaoPrimario.pas' {frmBotaoPrimario: TFrame},
+  UfrmRegistrar in '..\codigo\formularios\UfrmRegistrar.pas' {frmRegistrar},
+  UValidadorUsuario in '..\codigo\validadores\UValidadorUsuario.pas';
 
 {$R *.res}
 
@@ -25,5 +28,6 @@ begin
   ReportMemoryLeaksOnShutdown := True;
   Application.CreateForm(TdmRavin, dmRavin);
   Application.CreateForm(TfrmSplash, frmSplash);
+  Application.CreateForm(TfrmRegistrar, frmRegistrar);
   Application.Run;
 end.

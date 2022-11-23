@@ -9,6 +9,8 @@ uses
   System.Variants,
   System.Classes,
 
+  FireDAC.Phys.MySQLWrapper,
+
   Vcl.Graphics,
   Vcl.Controls,
   Vcl.Forms,
@@ -17,7 +19,7 @@ uses
   Vcl.StdCtrls,
   Vcl.ExtCtrls,
   Vcl.Imaging.pngimage,
-  UfrmAutenticar, System.Actions, Vcl.ActnList, Vcl.ExtActns;
+  System.Actions, Vcl.ActnList, Vcl.ExtActns;
 
 type
   TfrmRegistrar = class(TForm)
@@ -29,12 +31,12 @@ type
     lblSubTituloAutenticar: TLabel;
     edtNome: TEdit;
     edtCpf: TEdit;
-    frmBotaoPrimarioRegistrar: TfrmBotaoPrimario;
     edtLogin: TEdit;
     edtSenha: TEdit;
     edtConfirmarSenha: TEdit;
+    frmBotaoPrimario1: TfrmBotaoPrimario;
     procedure lblSubTituloAutenticarClick(Sender: TObject);
-    procedure frmBotaoPrimarioRegistrarspbBotaoPrimarioClick(Sender: TObject);
+    procedure frmBotaoPrimario1spbBotaoPrimarioClick(Sender: TObject);
   private
     { Private declarations }
     procedure SetMainForm(NovoMainForm: TForm);
@@ -48,53 +50,55 @@ var
 implementation
 
 uses
-  UusuarioDao,
-  Uusuario;
+  UusuarioDao, Uusuario, UfrmLogin, UValidadorUsuario;
 
-{$R *.dfm}
-
-procedure TfrmRegistrar.frmBotaoPrimarioRegistrarspbBotaoPrimarioClick
-  (Sender: TObject);
+procedure TfrmRegistrar.frmBotaoPrimario1spbBotaoPrimarioClick(Sender: TObject);
 var
-  Lusuario: Tusuario;
-  LusuarioDao: TUsuarioDAO;
+  LUsuario: TUsuario;
+  LDao: TUsuarioDao;
 begin
-  Lusuario := Tusuario.Create;
-  Lusuario.Login := edtLogin.Text;
-  Lusuario.Senha := edtSenha.Text;
-
-  LusuarioDao := TUsuarioDAO.Create();
-
   try
-    try
-      LusuarioDao.Salvar(Lusuario);
-      Vcl.Dialogs.MessageDlg
-        ('Agora que você se cadastrou efetue o login com suas informações cadastradas',
-        TMsgDlgType.mtConfirmation, [mbOk], 0, mbOk);
-      lblSubTituloAutenticarClick(Sender);
-    except
-      on E: Exception do
-      begin
-        ShowMessage('Erro ao criar a conta do usuário')
-      end;
+
+    LUsuario := TUsuario.Create();
+    LUsuario.login := edtLogin.Text;
+    LUsuario.senha := edtSenha.Text;
+    LUsuario.pessoaId := 1;
+    LUsuario.criadoEm := Now();
+    LUsuario.criadoPor := 'admin';
+    LUsuario.alteradoEm := Now();
+    LUsuario.alteradoPor := 'admin';
+
+    TValidadorUsuario.Validar(LUsuario, edtConfirmarSenha.Text);
+
+    LDao := TUsuarioDao.Create();
+    LDao.InserirUsuario(LUsuario);
+
+    FreeAndNil(LDao);
+  except
+    on E: EMySQLNativeException do
+    begin
+      ShowMessage('Erro ao cadastrar o Usuário.');
+    end;
+    on E: Exception do
+    begin
+      ShowMessage(E.Message);
     end;
 
-  finally
-    LusuarioDao.Free;
-    Lusuario.Free;
   end;
+
+  FreeAndNil(LUsuario);
 
 end;
 
 procedure TfrmRegistrar.lblSubTituloAutenticarClick(Sender: TObject);
 begin
-  if not Assigned(frmAutenticar) then
+  if not Assigned(frmLogin) then
   begin
-    Application.CreateForm(TfrmAutenticar, frmAutenticar);
+    Application.CreateForm(TfrmLogin, frmLogin);
   end;
 
-  SetMainForm(frmAutenticar);
-  frmAutenticar.Show();
+  SetMainForm(frmLogin);
+  frmLogin.Show();
 
   Close();
 end;

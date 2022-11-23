@@ -96,19 +96,19 @@ object frmLogin: TfrmLogin
       000092280000E9012B6CE6327A6BD1E00000000049454E44AE426082}
   end
   object pnlAutenticacao: TPanel
-    Left = 112
+    Left = 110
     Top = 0
-    Width = 409
+    Width = 425
     Height = 490
     Color = clWhite
     ParentBackground = False
     TabOrder = 0
     DesignSize = (
-      409
+      425
       490)
     object imgLogo: TImage
-      Left = 144
-      Top = 40
+      Left = 160
+      Top = 32
       Width = 97
       Height = 105
       Picture.Data = {
@@ -1274,7 +1274,7 @@ object frmLogin: TfrmLogin
     object lblTituloRegistrar: TLabel
       Left = 0
       Top = 440
-      Width = 409
+      Width = 425
       Height = 19
       Alignment = taCenter
       Anchors = [akLeft, akTop, akRight]
@@ -1286,11 +1286,13 @@ object frmLogin: TfrmLogin
       Font.Name = 'Roboto'
       Font.Style = [fsBold]
       ParentFont = False
+      OnClick = lblTituloRegistrarClick
+      ExplicitWidth = 409
     end
     object lblTitulo: TLabel
       Left = 0
       Top = 151
-      Width = 409
+      Width = 425
       Height = 25
       Alignment = taCenter
       Anchors = [akLeft, akTop, akRight]
@@ -1302,11 +1304,12 @@ object frmLogin: TfrmLogin
       Font.Name = 'Roboto'
       Font.Style = []
       ParentFont = False
+      ExplicitWidth = 409
     end
     object lblSubTitulo: TLabel
       Left = 0
       Top = 182
-      Width = 409
+      Width = 425
       Height = 18
       Alignment = taCenter
       Anchors = [akLeft, akTop, akRight]
@@ -1320,11 +1323,12 @@ object frmLogin: TfrmLogin
       Font.Style = []
       ParentColor = False
       ParentFont = False
+      ExplicitWidth = 409
     end
     object lblSubTituloRegistras: TLabel
       Left = 0
       Top = 420
-      Width = 409
+      Width = 425
       Height = 14
       Alignment = taCenter
       Anchors = [akLeft, akTop, akRight]
@@ -1338,11 +1342,12 @@ object frmLogin: TfrmLogin
       Font.Style = []
       ParentColor = False
       ParentFont = False
+      ExplicitWidth = 409
     end
     object edtLogin: TEdit
       Left = 80
       Top = 261
-      Width = 233
+      Width = 249
       Height = 27
       Anchors = [akLeft, akRight]
       AutoSize = False
@@ -1358,7 +1363,7 @@ object frmLogin: TfrmLogin
     object edtSenha: TEdit
       Left = 80
       Top = 291
-      Width = 233
+      Width = 249
       Height = 27
       Anchors = [akLeft, akRight]
       AutoSize = False
@@ -1372,33 +1377,35 @@ object frmLogin: TfrmLogin
       TabOrder = 1
       TextHint = 'Senha'
     end
-    inline frmBotaoAutenticar1: TfrmBotaoAutenticar
-      Left = 89
+    inline frmBotaoAutenticar1: TfrmBotaoPrimario
+      Left = 80
       Top = 360
-      Width = 320
+      Width = 257
       Height = 50
+      Anchors = []
+      BiDiMode = bdLeftToRight
       Color = clWhite
       ParentBackground = False
+      ParentBiDiMode = False
       ParentColor = False
       TabOrder = 2
-      ExplicitLeft = 89
+      ExplicitLeft = 80
       ExplicitTop = 360
+      ExplicitWidth = 257
       inherited pnlFundo: TPanel
-        inherited spdBotaoPrimario: TSpeedButton
-          Left = 1
-          Top = -1
-          Width = 318
-          Align = alBottom
-          OnClick = frmBotaoAutenticar1spdBotaoPrimarioClick
-          ExplicitLeft = 1
-          ExplicitTop = -1
-          ExplicitWidth = 256
+        Width = 257
+        ExplicitWidth = 257
+        inherited spbBotaoPrimario: TSpeedButton
+          Width = 257
+          Caption = 'Autenticar'
+          OnClick = frmBotaoAutenticar1spbBotaoPrimarioClick
+          ExplicitWidth = 257
         end
       end
     end
     object Button1: TButton
-      Left = 328
-      Top = 440
+      Left = 176
+      Top = 216
       Width = 75
       Height = 25
       Caption = 'Button1'

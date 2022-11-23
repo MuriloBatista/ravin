@@ -22895,14 +22895,13 @@ object frmRegistrar: TfrmRegistrar
     Color = clWhite
     ParentBackground = False
     TabOrder = 0
-    ExplicitLeft = 136
     DesignSize = (
       350
       490)
     object lblTituloRegistrar: TLabel
       Left = 50
       Top = 41
-      Width = 250
+      Width = 245
       Height = 33
       Alignment = taCenter
       Anchors = [akLeft, akTop, akRight]
@@ -22914,11 +22913,12 @@ object frmRegistrar: TfrmRegistrar
       Font.Name = 'Roboto'
       Font.Style = []
       ParentFont = False
+      ExplicitWidth = 250
     end
     object lblSubTituloRegistrar: TLabel
       Left = 50
       Top = 80
-      Width = 250
+      Width = 245
       Height = 19
       Alignment = taCenter
       Anchors = [akLeft, akTop, akRight]
@@ -22932,6 +22932,7 @@ object frmRegistrar: TfrmRegistrar
       Font.Style = []
       ParentColor = False
       ParentFont = False
+      ExplicitWidth = 250
     end
     object lblTituloAutenticar: TLabel
       AlignWithMargins = True
@@ -22948,7 +22949,7 @@ object frmRegistrar: TfrmRegistrar
       Font.Name = 'Roboto'
       Font.Style = []
       ParentFont = False
-      ExplicitLeft = 50
+      ExplicitWidth = 80
     end
     object lblSubTituloAutenticar: TLabel
       AlignWithMargins = True
@@ -22971,8 +22972,8 @@ object frmRegistrar: TfrmRegistrar
     end
     object edtNome: TEdit
       Left = 50
-      Top = 143
-      Width = 250
+      Top = 127
+      Width = 245
       Height = 27
       Anchors = [akLeft, akTop, akRight]
       BevelInner = bvNone
@@ -22984,12 +22985,12 @@ object frmRegistrar: TfrmRegistrar
       Font.Style = []
       ParentFont = False
       TabOrder = 0
-      TextHint = 'Digite seu nome'
+      TextHint = 'Digite seu Nome'
     end
     object edtCpf: TEdit
       Left = 50
-      Top = 176
-      Width = 250
+      Top = 160
+      Width = 245
       Height = 27
       Anchors = [akLeft, akTop, akRight]
       BevelInner = bvNone
@@ -23001,42 +23002,12 @@ object frmRegistrar: TfrmRegistrar
       Font.Style = []
       ParentFont = False
       TabOrder = 1
-      TextHint = 'Digite seu cpf'
-    end
-    inline frmBotaoPrimarioRegistrar: TfrmBotaoPrimario
-      Left = 50
-      Top = 344
-      Width = 250
-      Height = 45
-      Anchors = [akLeft, akTop, akRight]
-      Color = clWhite
-      ParentBackground = False
-      ParentColor = False
-      TabOrder = 2
-      ExplicitLeft = 50
-      ExplicitTop = 344
-      ExplicitWidth = 250
-      ExplicitHeight = 45
-      inherited pnlFundo: TPanel
-        Width = 250
-        Height = 45
-        ExplicitWidth = 280
-        ExplicitHeight = 45
-        inherited spbBotaoPrimario: TSpeedButton
-          Width = 250
-          Height = 45
-          Hint = 'Send email'
-          Caption = 'Registrar'
-          OnClick = frmBotaoPrimarioRegistrarspbBotaoPrimarioClick
-          ExplicitWidth = 257
-          ExplicitHeight = 35
-        end
-      end
+      TextHint = 'Digite seu CPF'
     end
     object edtLogin: TEdit
       Left = 50
-      Top = 209
-      Width = 250
+      Top = 193
+      Width = 245
       Height = 27
       Anchors = [akLeft, akTop, akRight]
       BevelInner = bvNone
@@ -23047,13 +23018,13 @@ object frmRegistrar: TfrmRegistrar
       Font.Name = 'Roboto'
       Font.Style = []
       ParentFont = False
-      TabOrder = 3
-      TextHint = 'Digite seu login'
+      TabOrder = 2
+      TextHint = 'Digite seu Usu'#225'rio'
     end
     object edtSenha: TEdit
       Left = 50
-      Top = 242
-      Width = 250
+      Top = 226
+      Width = 245
       Height = 27
       Anchors = [akLeft, akTop, akRight]
       BevelInner = bvNone
@@ -23066,12 +23037,12 @@ object frmRegistrar: TfrmRegistrar
       ParentFont = False
       PasswordChar = '*'
       TabOrder = 4
-      TextHint = 'Digite sua senha'
+      TextHint = 'Digite sua Senha'
     end
     object edtConfirmarSenha: TEdit
       Left = 50
-      Top = 275
-      Width = 250
+      Top = 259
+      Width = 245
       Height = 27
       Anchors = [akLeft, akTop, akRight]
       BevelInner = bvNone
@@ -23083,8 +23054,45 @@ object frmRegistrar: TfrmRegistrar
       Font.Style = []
       ParentFont = False
       PasswordChar = '*'
+      TabOrder = 3
+      TextHint = 'Confirme sua Senha'
+    end
+    inline frmBotaoPrimario1: TfrmBotaoPrimario
+      Left = 96
+      Top = 304
+      Width = 201
+      Height = 57
+      Color = clWhite
+      ParentBackground = False
+      ParentColor = False
       TabOrder = 5
-      TextHint = 'Confirme sua senha'
+      ExplicitLeft = 96
+      ExplicitTop = 304
+      ExplicitWidth = 201
+      ExplicitHeight = 57
+      inherited pnlFundo: TPanel
+        Left = -32
+        Top = -15
+        Width = 201
+        Height = 74
+        Align = alNone
+        ExplicitLeft = -32
+        ExplicitTop = -15
+        ExplicitWidth = 201
+        ExplicitHeight = 74
+        inherited spbBotaoPrimario: TSpeedButton
+          Left = 16
+          Top = 19
+          Width = 201
+          Align = alNone
+          Caption = 'Registrar'
+          OnClick = frmBotaoPrimario1spbBotaoPrimarioClick
+          ExplicitLeft = 16
+          ExplicitTop = 19
+          ExplicitWidth = 201
+          ExplicitHeight = 50
+        end
+      end
     end
   end
 end

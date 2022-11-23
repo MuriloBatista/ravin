@@ -19,10 +19,12 @@ type
     lblSubTitulo: TLabel;
     lblSubTituloRegistras: TLabel;
     imgFundo: TImage;
-    frmBotaoAutenticar1: TfrmBotaoAutenticar;
+    frmBotaoAutenticar1: TfrmBotaoPrimario;
     Button1: TButton;
     procedure frmBotaoAutenticar1spdBotaoPrimarioClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure frmBotaoAutenticar1spbBotaoPrimarioClick(Sender: TObject);
+    procedure lblTituloRegistrarClick(Sender: TObject);
 
   private
     { Private declarations }
@@ -37,7 +39,7 @@ var
 implementation
 
 uses
-  UusuarioDao, Uusuario, UfrmPainelGestao;
+  UusuarioDao, Uusuario, UfrmPainelGestao, UfrmRegistrar;
 {$R *.dfm}
 
 procedure TfrmLogin.Button1Click(Sender: TObject);
@@ -61,6 +63,42 @@ begin
   FreeAndNil(LDao);
   FreeAndNil(LUsuario);
 
+end;
+
+procedure TfrmLogin.frmBotaoAutenticar1spbBotaoPrimarioClick(Sender: TObject);
+var
+  LDao: TUsuarioDao;
+  LUsuario: TUsuario;
+
+  LLogin, LSenha: String;
+begin
+
+  LDao := TUsuarioDao.Create;
+
+  LLogin := edtLogin.Text;
+  LSenha := edtSenha.Text;
+
+  LUsuario := LDao.BuscarUsuarioPorLoginSenha(LLogin, LSenha);
+
+  if Assigned(LUsuario) then
+  begin
+    if not Assigned(frmPainelGestao) then
+    begin
+      Application.CreateForm(TfrmPainelGestao, frmPainelGestao)
+    end;
+
+    SetarFormPrincipal(frmPainelGestao);
+    frmPainelGestao.Show;
+
+    Close();
+  end
+  else
+  begin
+    ShowMessage('Login e/ou senha inválidos.');
+  end;
+
+  FreeAndNil(LDao);
+  FreeAndNil(LUsuario);
 end;
 
 procedure TfrmLogin.frmBotaoAutenticar1spdBotaoPrimarioClick(Sender: TObject);
@@ -97,6 +135,19 @@ begin
 
   FreeAndNil(LDao);
   FreeAndNil(LUsuario);
+end;
+
+procedure TfrmLogin.lblTituloRegistrarClick(Sender: TObject);
+begin
+ if not Assigned(frmRegistrar) then
+   begin
+   Application.CreateForm(TfrmRegistrar, frmRegistrar);
+   end;
+
+   SetarFormPrincipal(frmRegistrar);
+   frmRegistrar.Show();
+
+   Close();
 end;
 
 procedure TfrmLogin.SetarFormPrincipal(PNovoFormulario: TForm);
