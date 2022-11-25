@@ -22901,7 +22901,7 @@ object frmRegistrar: TfrmRegistrar
     object lblTituloRegistrar: TLabel
       Left = 50
       Top = 41
-      Width = 245
+      Width = 250
       Height = 33
       Alignment = taCenter
       Anchors = [akLeft, akTop, akRight]
@@ -22913,12 +22913,11 @@ object frmRegistrar: TfrmRegistrar
       Font.Name = 'Roboto'
       Font.Style = []
       ParentFont = False
-      ExplicitWidth = 250
     end
     object lblSubTituloRegistrar: TLabel
       Left = 50
       Top = 80
-      Width = 245
+      Width = 250
       Height = 19
       Alignment = taCenter
       Anchors = [akLeft, akTop, akRight]
@@ -22932,7 +22931,6 @@ object frmRegistrar: TfrmRegistrar
       Font.Style = []
       ParentColor = False
       ParentFont = False
-      ExplicitWidth = 250
     end
     object lblTituloAutenticar: TLabel
       AlignWithMargins = True
@@ -22972,8 +22970,8 @@ object frmRegistrar: TfrmRegistrar
     end
     object edtNome: TEdit
       Left = 50
-      Top = 127
-      Width = 245
+      Top = 143
+      Width = 250
       Height = 27
       Anchors = [akLeft, akTop, akRight]
       BevelInner = bvNone
@@ -22985,12 +22983,12 @@ object frmRegistrar: TfrmRegistrar
       Font.Style = []
       ParentFont = False
       TabOrder = 0
-      TextHint = 'Digite seu Nome'
+      TextHint = 'Digite seu nome'
     end
     object edtCpf: TEdit
       Left = 50
-      Top = 160
-      Width = 245
+      Top = 176
+      Width = 250
       Height = 27
       Anchors = [akLeft, akTop, akRight]
       BevelInner = bvNone
@@ -23002,12 +23000,12 @@ object frmRegistrar: TfrmRegistrar
       Font.Style = []
       ParentFont = False
       TabOrder = 1
-      TextHint = 'Digite seu CPF'
+      TextHint = 'Digite seu cpf'
     end
     object edtLogin: TEdit
       Left = 50
-      Top = 193
-      Width = 245
+      Top = 209
+      Width = 250
       Height = 27
       Anchors = [akLeft, akTop, akRight]
       BevelInner = bvNone
@@ -23019,12 +23017,12 @@ object frmRegistrar: TfrmRegistrar
       Font.Style = []
       ParentFont = False
       TabOrder = 2
-      TextHint = 'Digite seu Usu'#225'rio'
+      TextHint = 'Digite seu login'
     end
     object edtSenha: TEdit
       Left = 50
-      Top = 226
-      Width = 245
+      Top = 242
+      Width = 250
       Height = 27
       Anchors = [akLeft, akTop, akRight]
       BevelInner = bvNone
@@ -23037,12 +23035,12 @@ object frmRegistrar: TfrmRegistrar
       ParentFont = False
       PasswordChar = '*'
       TabOrder = 4
-      TextHint = 'Digite sua Senha'
+      TextHint = 'Digite sua senha'
     end
     object edtConfirmarSenha: TEdit
       Left = 50
-      Top = 259
-      Width = 245
+      Top = 275
+      Width = 250
       Height = 27
       Anchors = [akLeft, akTop, akRight]
       BevelInner = bvNone
@@ -23055,41 +23053,30 @@ object frmRegistrar: TfrmRegistrar
       ParentFont = False
       PasswordChar = '*'
       TabOrder = 3
-      TextHint = 'Confirme sua Senha'
+      TextHint = 'Confirme sua senha'
     end
     inline frmBotaoPrimario1: TfrmBotaoPrimario
-      Left = 96
-      Top = 304
-      Width = 201
-      Height = 57
+      Left = 50
+      Top = 352
+      Width = 255
+      Height = 50
       Color = clWhite
       ParentBackground = False
       ParentColor = False
       TabOrder = 5
-      ExplicitLeft = 96
-      ExplicitTop = 304
-      ExplicitWidth = 201
-      ExplicitHeight = 57
+      ExplicitLeft = 50
+      ExplicitTop = 352
+      ExplicitWidth = 255
       inherited pnlFundo: TPanel
-        Left = -32
-        Top = -15
-        Width = 201
-        Height = 74
-        Align = alNone
-        ExplicitLeft = -32
-        ExplicitTop = -15
-        ExplicitWidth = 201
-        ExplicitHeight = 74
+        Width = 255
+        ExplicitWidth = 255
         inherited spbBotaoPrimario: TSpeedButton
-          Left = 16
-          Top = 19
-          Width = 201
-          Align = alNone
-          Caption = 'Registrar'
+          Width = 255
+          Caption = 'Resgistrar'
           OnClick = frmBotaoPrimario1spbBotaoPrimarioClick
-          ExplicitLeft = 16
-          ExplicitTop = 19
-          ExplicitWidth = 201
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 305
           ExplicitHeight = 50
         end
       end

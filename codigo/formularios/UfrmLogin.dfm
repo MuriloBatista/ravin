@@ -96,19 +96,19 @@ object frmLogin: TfrmLogin
       000092280000E9012B6CE6327A6BD1E00000000049454E44AE426082}
   end
   object pnlAutenticacao: TPanel
-    Left = 110
+    Left = 120
     Top = 0
-    Width = 425
+    Width = 417
     Height = 490
     Color = clWhite
     ParentBackground = False
     TabOrder = 0
     DesignSize = (
-      425
+      417
       490)
     object imgLogo: TImage
-      Left = 160
-      Top = 32
+      Left = 144
+      Top = 40
       Width = 97
       Height = 105
       Picture.Data = {
@@ -1273,9 +1273,9 @@ object frmLogin: TfrmLogin
     end
     object lblTituloRegistrar: TLabel
       Left = 0
-      Top = 440
-      Width = 425
-      Height = 19
+      Top = 464
+      Width = 417
+      Height = 27
       Alignment = taCenter
       Anchors = [akLeft, akTop, akRight]
       AutoSize = False
@@ -1287,12 +1287,11 @@ object frmLogin: TfrmLogin
       Font.Style = [fsBold]
       ParentFont = False
       OnClick = lblTituloRegistrarClick
-      ExplicitWidth = 409
     end
     object lblTitulo: TLabel
       Left = 0
       Top = 151
-      Width = 425
+      Width = 417
       Height = 25
       Alignment = taCenter
       Anchors = [akLeft, akTop, akRight]
@@ -1309,7 +1308,7 @@ object frmLogin: TfrmLogin
     object lblSubTitulo: TLabel
       Left = 0
       Top = 182
-      Width = 425
+      Width = 417
       Height = 18
       Alignment = taCenter
       Anchors = [akLeft, akTop, akRight]
@@ -1327,8 +1326,8 @@ object frmLogin: TfrmLogin
     end
     object lblSubTituloRegistras: TLabel
       Left = 0
-      Top = 420
-      Width = 425
+      Top = 444
+      Width = 417
       Height = 14
       Alignment = taCenter
       Anchors = [akLeft, akTop, akRight]
@@ -1342,12 +1341,11 @@ object frmLogin: TfrmLogin
       Font.Style = []
       ParentColor = False
       ParentFont = False
-      ExplicitWidth = 409
     end
     object edtLogin: TEdit
       Left = 80
       Top = 261
-      Width = 249
+      Width = 241
       Height = 27
       Anchors = [akLeft, akRight]
       AutoSize = False
@@ -1363,7 +1361,7 @@ object frmLogin: TfrmLogin
     object edtSenha: TEdit
       Left = 80
       Top = 291
-      Width = 249
+      Width = 241
       Height = 27
       Anchors = [akLeft, akRight]
       AutoSize = False
@@ -1377,40 +1375,28 @@ object frmLogin: TfrmLogin
       TabOrder = 1
       TextHint = 'Senha'
     end
-    inline frmBotaoAutenticar1: TfrmBotaoPrimario
+    inline frmBotaoPrimario1: TfrmBotaoPrimario
       Left = 80
-      Top = 360
-      Width = 257
+      Top = 352
+      Width = 241
       Height = 50
-      Anchors = []
-      BiDiMode = bdLeftToRight
       Color = clWhite
       ParentBackground = False
-      ParentBiDiMode = False
       ParentColor = False
       TabOrder = 2
       ExplicitLeft = 80
-      ExplicitTop = 360
-      ExplicitWidth = 257
+      ExplicitTop = 352
+      ExplicitWidth = 241
       inherited pnlFundo: TPanel
-        Width = 257
-        ExplicitWidth = 257
+        Width = 241
+        ExplicitWidth = 241
         inherited spbBotaoPrimario: TSpeedButton
-          Width = 257
+          Width = 241
           Caption = 'Autenticar'
-          OnClick = frmBotaoAutenticar1spbBotaoPrimarioClick
-          ExplicitWidth = 257
+          OnClick = frmBotaoPrimario1spbBotaoPrimarioClick
+          ExplicitWidth = 241
         end
       end
-    end
-    object Button1: TButton
-      Left = 176
-      Top = 216
-      Width = 75
-      Height = 25
-      Caption = 'Button1'
-      TabOrder = 3
-      OnClick = Button1Click
     end
   end
 end

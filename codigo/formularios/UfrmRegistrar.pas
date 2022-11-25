@@ -9,8 +9,6 @@ uses
   System.Variants,
   System.Classes,
 
-  FireDAC.Phys.MySQLWrapper,
-
   Vcl.Graphics,
   Vcl.Controls,
   Vcl.Forms,
@@ -19,7 +17,7 @@ uses
   Vcl.StdCtrls,
   Vcl.ExtCtrls,
   Vcl.Imaging.pngimage,
-  System.Actions, Vcl.ActnList, Vcl.ExtActns;
+  System.Actions, Vcl.ActnList, FireDAC.Phys.MySQLWrapper, Vcl.ExtActns;
 
 type
   TfrmRegistrar = class(TForm)
@@ -50,44 +48,45 @@ var
 implementation
 
 uses
-  UusuarioDao, Uusuario, UfrmLogin, UValidadorUsuario;
+  UusuarioDao,
+  Uusuario, UfrmLogin, UvalidadorUsuario;
+
+{$R *.dfm}
 
 procedure TfrmRegistrar.frmBotaoPrimario1spbBotaoPrimarioClick(Sender: TObject);
 var
   LUsuario: TUsuario;
-  LDao: TUsuarioDao;
+  LDao : TUsuarioDAO;
 begin
-  try
 
-    LUsuario := TUsuario.Create();
-    LUsuario.login := edtLogin.Text;
-    LUsuario.senha := edtSenha.Text;
-    LUsuario.pessoaId := 1;
-    LUsuario.criadoEm := Now();
-    LUsuario.criadoPor := 'admin';
-    LUsuario.alteradoEm := Now();
-    LUsuario.alteradoPor := 'admin';
-
-    TValidadorUsuario.Validar(LUsuario, edtConfirmarSenha.Text);
-
-    LDao := TUsuarioDao.Create();
-    LDao.InserirUsuario(LUsuario);
-
-    FreeAndNil(LDao);
-  except
-    on E: EMySQLNativeException do
-    begin
-      ShowMessage('Erro ao cadastrar o Usuário.');
-    end;
-    on E: Exception do
-    begin
-      ShowMessage(E.Message);
-    end;
-
+try
+   LUsuario := TUsuario.Create();
+with LUsuario do
+  begin
+   login := edtLogin.Text;
+   senha := edtSenha.Text;
+   pessoaId := 1;
+   criadoEm := Now();
+   criadoPor := 'admin';
+   alteradoEm := Now();
+   alteradoPor := 'admin';
   end;
 
-  FreeAndNil(LUsuario);
+  TValidadorUsuario.Validar(LUsuario, edtConfirmarSenha.Text);
+  LDao := TUsuarioDAO.Create();
+  LDao.InserirUsuario(LUsuario);
 
+  FreeAndNil(LDao);
+
+except
+ on E: EMySQLNativeException  do
+ begin
+  ShowMessage('Erro ao inserir o usuario no banco');
+ end;
+ on E: Exception do
+  ShowMessage(e.Message);
+end;
+  FreeAndNil(LUsuario);
 end;
 
 procedure TfrmRegistrar.lblSubTituloAutenticarClick(Sender: TObject);

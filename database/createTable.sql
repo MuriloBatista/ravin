@@ -1,4 +1,3 @@
-START TRANSACTION;
 
 CREATE SCHEMA `ravin`;
 USE `ravin`;
@@ -110,18 +109,3 @@ CREATE TABLE `comandaProduto` (
 	FOREIGN KEY (produtoId) REFERENCES produto(id),
 	FOREIGN KEY (statusComandaProdutoId) REFERENCES statusComandaProduto(id)
 );
-
-CREATE TABLE IF NOT EXISTS `usuario` (
-	`id` INT NOT NULL AUTO_INCREMENT,
-	`login` VARCHAR(255) NOT NULL,
-	`senha` VARCHAR(255) NOT NULL,
-	`pessoaId` INT,	
-	`criadoEm` DATETIME NOT NULL,
-	`criadoPor` VARCHAR(255) NOT NULL,
-	`alteradoEm` DATETIME NOT NULL,
-	`alteradoPor` VARCHAR(255) NOT NULL,
-	PRIMARY KEY (`id`),
-	FOREIGN KEY (pessoaId) REFERENCES pessoa(id)
-);
-
-COMMIT;

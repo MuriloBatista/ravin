@@ -31,8 +31,10 @@ type
   private
     { Private declarations }
     Inicialized: Boolean;
-    procedure InicializeApplication();
-    procedure SetMainForm(NewMainForm: TForm);
+    procedure InicializarAplicacao();
+    procedure SetarFormPrincipal(NewMainForm: TForm);
+    procedure ShowPainelGestao();
+    procedure ShowLogin();
   public
     { Public declarations }
   end;
@@ -44,7 +46,7 @@ implementation
 
 {$R *.dfm}
 
-uses UfrmPainelGestao, UfrmLogin;
+uses UfrmPainelGestao, UfrmLogin, UiniUtils;
 
 procedure TfrmSplash.FormCreate(Sender: TObject);
 begin
@@ -58,17 +60,21 @@ begin
   tmrSplash.Enabled := not Inicialized;
 end;
 
-procedure TfrmSplash.InicializeApplication;
+procedure TfrmSplash.InicializarAplicacao;
+var
+  LLogado: String;
 begin
-  if not Assigned(frmLogin) then
+  LLogado := TIniUtils.lerPropriedade(TSECAO.INFORMACOES_GERAIS,
+    TPROPRIEDADE.LOGADO);
+
+  if LLogado = TIniUtils.VALOR_TRUE then
   begin
-    Application.CreateForm(TfrmLogin, frmLogin);
+    ShowPainelGestao();
+  end
+  else
+  begin
+    ShowLogin();
   end;
-
-  SetMainForm(frmLogin);
-  frmLogin.Show();
-
-  Close;
 end;
 
 procedure TfrmSplash.tmrSplashTimer(Sender: TObject);
@@ -77,11 +83,11 @@ begin
   if not Inicialized then
   begin
     Inicialized := true;
-    InicializeApplication();
+    InicializarAplicacao();
   end;
 end;
 
-procedure TfrmSplash.SetMainForm(NewMainForm: TForm);
+procedure TfrmSplash.SetarFormPrincipal(NewMainForm: TForm);
 var
   tmpMain: ^TCustomForm;
 begin
@@ -89,6 +95,32 @@ begin
   tmpMain^ := NewMainForm;
 end;
 
+procedure TfrmSplash.ShowLogin;
+begin
+
+  if not Assigned(frmLogin) then
+  begin
+    Application.CreateForm(TfrmLogin, frmLogin);
+  end;
+
+  SetarFormPrincipal(frmLogin);
+  frmLogin.Show();
+
+  Close;
+
+end;
+
+procedure TfrmSplash.ShowPainelGestao;
+begin
+  if not Assigned(frmPainelGestao) then
+  begin
+    Application.CreateForm(TfrmPainelGestao, frmPainelGestao);
+  end;
+
+  SetarFormPrincipal(frmPainelGestao);
+  frmPainelGestao.Show();
+
+  Close;
+end;
+
 end.
-
-

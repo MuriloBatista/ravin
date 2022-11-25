@@ -40,9 +40,10 @@ uses
 procedure TdmRavin.cnxBancoDeDadosAfterConnect(Sender: TObject);
 var
   LCriarBaseDados: Boolean;
+  LCaminhoBaseDados: String;
 begin
-  LCriarBaseDados := not FileExists
-    ('C:\ProgramData\MySQL\MySQL Server 8.0\Data\ravin\pessoa.ibd');
+  LCaminhoBaseDados := 'C:\ProgramData\MySQL\MySQL Server 8.0\Data\ravin\';
+  LCriarBaseDados := not DirectoryExists(LCaminhoBaseDados);
 
   if (LCriarBaseDados) then
   begin
@@ -55,8 +56,8 @@ procedure TdmRavin.cnxBancoDeDadosBeforeConnect(Sender: TObject);
 var
   LCriarBaseDados: Boolean;
 begin
-  LCriarBaseDados := not FileExists
-    ('C:\ProgramData\MySQL\MySQL Server 8.0\Data\ravin\pessoa.ibd');
+  LCriarBaseDados := not DirectoryExists
+    ('C:\ProgramData\MySQL\MySQL Server 8.0\Data\ravin\');
   with cnxBancoDeDados do
   begin
     Params.Values['Server'] := 'localhost';
@@ -73,15 +74,14 @@ begin
 end;
 
 procedure TdmRavin.CriarTabelas;
-
 begin
- try
-    cnxBancoDeDados.ExecSQL(TResourceUtils
-      .carregarArquivosResource('createTable.sql', 'rafui'));
- except
-  on E: Exception do
-    ShowMessage(E.Message);
- end;
+  try
+    cnxBancoDeDados.ExecSQL(TResourceUtils.carregarArquivoResource
+      ('createTable.sql', 'rafui'));
+  except
+    on E: Exception do
+      ShowMessage(E.Message);
+  end;
 end;
 
 procedure TdmRavin.DataModuleCreate(Sender: TObject);
@@ -96,8 +96,8 @@ procedure TdmRavin.InserirDados;
 begin
   try
     cnxBancoDeDados.StartTransaction();
-    cnxBancoDeDados.ExecSQL(TResourceUtils
-      .carregarArquivosResource('inserts.sql', 'rafui'));
+    cnxBancoDeDados.ExecSQL(TResourceUtils.carregarArquivoResource
+      ('inserts.sql', 'rafui'));
     cnxBancoDeDados.Commit();
   except
     on E: Exception do
@@ -106,6 +106,7 @@ begin
       ShowMessage(E.Message);
     end;
   end;
+
 end;
 
 end.
