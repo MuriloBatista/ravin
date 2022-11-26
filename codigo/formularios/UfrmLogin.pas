@@ -20,8 +20,10 @@ type
     lblSubTituloRegistras: TLabel;
     imgFundo: TImage;
     frmBotaoPrimario1: TfrmBotaoPrimario;
+    btnListar: TButton;
     procedure frmBotaoPrimario1spbBotaoPrimarioClick(Sender: TObject);
     procedure lblTituloRegistrarClick(Sender: TObject);
+    procedure btnListarClick(Sender: TObject);
   private
     { Private declarations }
     procedure SetarFormPrincipal(pNovoFormulario: TForm);
@@ -35,9 +37,23 @@ var
 implementation
 
 uses
-  UfrmPainelGestao, UusuarioDao, Uusuario, UfrmRegistrar, UiniUtils;
+  UfrmPainelGestao, UusuarioDao, Uusuario, UfrmRegistrar, UiniUtils,
+  UfrmListaUsuarios;
 
 {$R *.dfm}
+
+procedure TfrmLogin.btnListarClick(Sender: TObject);
+begin
+  if not Assigned(frmListaUsuarios) then
+  begin
+    Application.CreateForm(TfrmListaUsuarios, frmListaUsuarios);
+  end;
+
+  SetarFormPrincipal(frmListaUsuarios);
+  frmListaUsuarios.Show();
+
+  Close();
+end;
 
 procedure TfrmLogin.frmBotaoPrimario1spbBotaoPrimarioClick(Sender: TObject);
 var
@@ -57,8 +73,8 @@ begin
   if Assigned(LUsuario) then
   begin
 
-    TIniUtils.gravarPropriedade(TSECAO.INFORMACOES_GERAIS,
-      TPROPRIEDADE.LOGADO, TIniUtils.VALOR_TRUE);
+    TIniUtils.gravarPropriedade(TSECAO.INFORMACOES_GERAIS, TPROPRIEDADE.LOGADO,
+      TIniUtils.VALOR_TRUE);
 
     if not Assigned(frmPainelGestao) then
     begin

@@ -1398,5 +1398,14 @@ object frmLogin: TfrmLogin
         end
       end
     end
+    object btnListar: TButton
+      Left = 166
+      Top = 413
+      Width = 75
+      Height = 25
+      Caption = 'Listar'
+      TabOrder = 3
+      OnClick = btnListarClick
+    end
   end
 end
