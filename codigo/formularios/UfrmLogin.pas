@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Imaging.pngimage,
-  Vcl.Buttons, Vcl.StdCtrls, UfrmBotaoPrimario;
+  Vcl.Buttons, Vcl.StdCtrls, UfrmBotaoPrimario, System.Generics.Collections;
 
 type
   TfrmLogin = class(TForm)
@@ -20,13 +20,15 @@ type
     lblSubTituloRegistras: TLabel;
     imgFundo: TImage;
     frmBotaoPrimario1: TfrmBotaoPrimario;
-    btnListar: TButton;
+    Memo1: TMemo;
     procedure frmBotaoPrimario1spbBotaoPrimarioClick(Sender: TObject);
     procedure lblTituloRegistrarClick(Sender: TObject);
-    procedure btnListarClick(Sender: TObject);
+    procedure Memo1Click(Sender: TObject);
   private
     { Private declarations }
-    procedure SetarFormPrincipal(pNovoFormulario: TForm);
+    procedure ExibirFormRegistrar();
+    procedure ExibirFormPainelGestao();
+    procedure LoginUsuario();
   public
     { Public declarations }
   end;
@@ -38,24 +40,33 @@ implementation
 
 uses
   UfrmPainelGestao, UusuarioDao, Uusuario, UfrmRegistrar, UiniUtils,
-  UfrmListaUsuarios;
+  UformsUtils;
 
 {$R *.dfm}
 
-procedure TfrmLogin.btnListarClick(Sender: TObject);
+procedure TfrmLogin.ExibirFormPainelGestao;
 begin
-  if not Assigned(frmListaUsuarios) then
-  begin
-    Application.CreateForm(TfrmListaUsuarios, frmListaUsuarios);
-  end;
+  TFormsUtils.ShowFormPrincipal(frmPainelGestao, TfrmPainelGestao);
+  Close();
+end;
 
-  SetarFormPrincipal(frmListaUsuarios);
-  frmListaUsuarios.Show();
-
+procedure TfrmLogin.ExibirFormRegistrar;
+begin
+  TFormsUtils.ShowFormPrincipal(frmRegistrar, TfrmRegistrar);
   Close();
 end;
 
 procedure TfrmLogin.frmBotaoPrimario1spbBotaoPrimarioClick(Sender: TObject);
+begin
+  Self.LoginUsuario;
+end;
+
+procedure TfrmLogin.lblTituloRegistrarClick(Sender: TObject);
+begin
+  Self.ExibirFormRegistrar;
+end;
+
+procedure TfrmLogin.LoginUsuario;
 var
   LDao: TUsuarioDAO;
   LUsuario: TUsuario;
@@ -63,59 +74,52 @@ var
   LLogin: String;
   LSenha: String;
 begin
-
   LDao := TUsuarioDAO.Create;
   LLogin := edtLogin.Text;
   LSenha := edtSenha.Text;
 
-  LUsuario := LDao.BuscarUsuarioPorLoginSenha(LLogin, LSenha);
+  try
+    LUsuario := LDao.BuscarUsuarioPorLoginSenha(LLogin, LSenha);
 
-  if Assigned(LUsuario) then
-  begin
-
-    TIniUtils.gravarPropriedade(TSECAO.INFORMACOES_GERAIS, TPROPRIEDADE.LOGADO,
-      TIniUtils.VALOR_TRUE);
-
-    if not Assigned(frmPainelGestao) then
+    if Assigned(LUsuario) then
     begin
-      Application.CreateForm(TfrmPainelGestao, frmPainelGestao);
+     //Registra que o usuário efetuou Login
+      TIniUtils.gravarPropriedade(TSECAO.INFORMACOES_GERAIS,
+        TPROPRIEDADE.LOGADO, TIniUtils.VALOR_VERDADEIRO);
+
+     //Registra a data e hora Ultimo Login
+      TIniUtils.gravarPropriedade(TSECAO.INFORMACOES_GERAIS,
+        TPROPRIEDADE.ULTIMO_ACESSO, DateTimeToStr(Now()));
+      Self.ExibirFormPainelGestao;
+    end
+    else
+    begin
+      FreeAndNil(LDao);
+      ShowMessage('Login e/ou senha inválidos!');
     end;
-
-    SetarFormPrincipal(frmPainelGestao);
-    frmPainelGestao.Show();
-
+  finally
     FreeAndNil(LDao);
     FreeAndNil(LUsuario);
-
-    Close();
-  end
-  else
-  begin
-    FreeAndNil(LDao);
-    ShowMessage('Login e/ou senha inválidos!');
   end;
-
 end;
 
-procedure TfrmLogin.lblTituloRegistrarClick(Sender: TObject);
-begin
-  if not Assigned(frmRegistrar) then
-  begin
-    Application.CreateForm(TfrmRegistrar, frmRegistrar);
-  end;
-
-  SetarFormPrincipal(frmRegistrar);
-  frmRegistrar.Show();
-
-  Close();
-end;
-
-procedure TfrmLogin.SetarFormPrincipal(pNovoFormulario: TForm);
+procedure TfrmLogin.Memo1Click(Sender: TObject);
 var
-  tmpMain: ^TCustomForm;
+  LDao: TUsuarioDAO;
+  LUsuario: TUsuario;
+  LListaUsuarios: TList<TUsuario>;
+  I: Integer;
 begin
-  tmpMain := @Application.Mainform;
-  tmpMain^ := pNovoFormulario;
+  LDao := TUsuarioDAO.Create;
+  LListaUsuarios := LDao.BuscarTodosUsuarios;
+  for I := 0 to LListaUsuarios.Count - 1 do
+  begin
+    LUsuario := LListaUsuarios.Items[I];
+    Memo1.Lines.Add(LUsuario.login);
+    FreeAndNil(LUsuario);
+  end;
+  FreeAndNil(LDao);
+  FreeAndNil(LListaUsuarios);
 end;
 
 end.

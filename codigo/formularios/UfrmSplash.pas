@@ -5,11 +5,9 @@ interface
 uses
   Winapi.Windows,
   Winapi.Messages,
-
-  System.SysUtils,
   System.Variants,
   System.Classes,
-
+  DateUtils,
   Vcl.Graphics,
   Vcl.Controls,
   Vcl.Forms,
@@ -32,11 +30,13 @@ type
     { Private declarations }
     Inicialized: Boolean;
     procedure InicializarAplicacao();
-    procedure SetarFormPrincipal(NewMainForm: TForm);
-    procedure ShowPainelGestao();
-    procedure ShowLogin();
   public
     { Public declarations }
+    function verificarLoginExpirou(): Boolean;
+
+    // Numero máximo de dias que o usário fica logado sem a necessidade de login
+  const
+    MAX_DIAS_LOGIN: Integer = 5;
   end;
 
 var
@@ -46,7 +46,7 @@ implementation
 
 {$R *.dfm}
 
-uses UfrmPainelGestao, UfrmLogin, UiniUtils;
+uses UfrmPainelGestao, UfrmLogin, UiniUtils, UformsUtils, System.SysUtils;
 
 procedure TfrmSplash.FormCreate(Sender: TObject);
 begin
@@ -64,16 +64,20 @@ procedure TfrmSplash.InicializarAplicacao;
 var
   LLogado: String;
 begin
+
+  // Carrega se o Usuario está Logado
   LLogado := TIniUtils.lerPropriedade(TSECAO.INFORMACOES_GERAIS,
     TPROPRIEDADE.LOGADO);
 
-  if LLogado = TIniUtils.VALOR_TRUE then
+  if (LLogado = TIniUtils.VALOR_VERDADEIRO) and (verificarLoginExpirou) then
   begin
-    ShowPainelGestao();
+    TformsUtils.ShowFormPrincipal(frmPainelGestao, TfrmPainelGestao);
+    Close;
   end
   else
   begin
-    ShowLogin();
+    TformsUtils.ShowFormPrincipal(frmLogin, TfrmLogin);
+    Close;
   end;
 end;
 
@@ -87,40 +91,31 @@ begin
   end;
 end;
 
-procedure TfrmSplash.SetarFormPrincipal(NewMainForm: TForm);
+function TfrmSplash.verificarLoginExpirou: Boolean;
 var
-  tmpMain: ^TCustomForm;
-begin
-  tmpMain := @Application.Mainform;
-  tmpMain^ := NewMainForm;
-end;
-
-procedure TfrmSplash.ShowLogin;
+  LUltimoAcesso: TDateTime;
+  LDataExpiracaoLogin: TDateTime;
 begin
 
-  if not Assigned(frmLogin) then
-  begin
-    Application.CreateForm(TfrmLogin, frmLogin);
+  try
+    begin
+      // Carrega a datahora do ultimo login do usuario
+      LUltimoAcesso := StrToDateTime
+        (TIniUtils.lerPropriedade(TSECAO.INFORMACOES_GERAIS,
+        TPROPRIEDADE.ULTIMO_ACESSO));
+
+      LDataExpiracaoLogin := IncDay(LUltimoAcesso, MAX_DIAS_LOGIN);
+
+      //Verifica se expirou e retorna true ou false
+       Result := (LDataExpiracaoLogin >= Now())
+    end;
+  except
+    begin
+      Result := False;
+    end;
   end;
 
-  SetarFormPrincipal(frmLogin);
-  frmLogin.Show();
 
-  Close;
-
-end;
-
-procedure TfrmSplash.ShowPainelGestao;
-begin
-  if not Assigned(frmPainelGestao) then
-  begin
-    Application.CreateForm(TfrmPainelGestao, frmPainelGestao);
-  end;
-
-  SetarFormPrincipal(frmPainelGestao);
-  frmPainelGestao.Show();
-
-  Close;
 end;
 
 end.

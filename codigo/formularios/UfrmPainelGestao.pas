@@ -45,6 +45,11 @@ type
     procedure frmMenuItemComandaslblTituloClick(Sender: TObject);
   private
     { Private declarations }
+    procedure ExibirFormMesas();
+    procedure ExibirFormComandas();
+    procedure ExibirFormProdutos();
+    procedure ExibirFormSobre();
+    procedure Deslogar();
   public
     { Public declarations }
   end;
@@ -59,59 +64,65 @@ implementation
 uses
   UfrmSobre,
   UfrmProdutos,
-  UfrmMesas, UfrmComandas, UiniUtils;
+  UfrmMesas, UfrmComandas, UiniUtils,  UformsUtils, UfrmLogin;
+
+procedure TfrmPainelGestao.Deslogar;
+begin
+
+  TIniUtils.gravarPropriedade(TSECAO.INFORMACOES_GERAIS, TPROPRIEDADE.LOGADO,
+      TIniUtils.VALOR_FALSO);
+   TFormsUtils.ShowFormPrincipal(frmLogin, TfrmLogin);
+   Close;
+end;
+
+procedure TfrmPainelGestao.ExibirFormComandas;
+begin
+  TFormsUtils.ShowForm(frmComandas, TfrmComandas);
+end;
+
+procedure TfrmPainelGestao.ExibirFormMesas;
+begin
+  TFormsUtils.ShowForm(frmMesas, TfrmMesas);
+end;
+
+procedure TfrmPainelGestao.ExibirFormProdutos;
+begin
+  TFormsUtils.ShowForm(frmProdutos, TfrmProdutos);
+end;
+
+procedure TfrmPainelGestao.ExibirFormSobre;
+begin
+  TFormsUtils.ShowForm(frmSobre, TfrmSobre);
+end;
 
 procedure TfrmPainelGestao.FrameMenuItemMesasLabelTitleClick(Sender: TObject);
 begin
-  if (not Assigned(frmMesas)) then
-  begin
-    Application.CreateForm(TfrmMesas, frmMesas);
-  end;
-  frmMesas.show();
+    self.ExibirFormMesas;
 end;
 
 procedure TfrmPainelGestao.frmMenuItemComandaslblTituloClick(Sender: TObject);
 begin
-  if (not Assigned(frmComandas)) then
-  begin
-    Application.CreateForm(TfrmComandas, frmComandas);
-  end;
-
-  frmComandas.show();
+    self.ExibirFormComandas;
 end;
 
 procedure TfrmPainelGestao.frmMenuItemMesaslblTituloClick(Sender: TObject);
 begin
-  if (not Assigned(frmMesas)) then
-  begin
-    Application.CreateForm(TfrmMesas, frmMesas);
-  end;
-  frmMesas.show();
+    self.ExibirFormMesas;
 end;
 
 procedure TfrmPainelGestao.frmMenuItemProdutoslblTituloClick(Sender: TObject);
 begin
-  if (not Assigned(frmProdutos)) then
-  begin
-    Application.CreateForm(TfrmProdutos, frmProdutos);
-  end;
-  frmProdutos.show();
+    self.ExibirFormProdutos;
 end;
 
 procedure TfrmPainelGestao.frmMenuItemSairlblTituloClick(Sender: TObject);
 begin
-  TIniUtils.gravarPropriedade(TSECAO.INFORMACOES_GERAIS, TPROPRIEDADE.LOGADO,
-    TIniUtils.VALOR_FALSE);
-  Application.Terminate();
+  self.Deslogar;
 end;
 
 procedure TfrmPainelGestao.frmMenuItemSobrelblTituloClick(Sender: TObject);
 begin
-  if (not Assigned(frmSobre)) then
-  begin
-    Application.CreateForm(TfrmSobre, frmSobre)
-  end;
-  frmSobre.show();
+    self.ExibirFormSobre;
 end;
 
 end.

@@ -9,8 +9,8 @@ type
   protected
 
   public
-   class function carregarArquivoResource(PNomeArquivo: String;
-      PNomeAplicacao: String): String; //metodo estatico
+    class function carregarArquivoResource(PNomeArquivo: String;
+      PNomeAplicacao: String): String; // metodo estatico
   end;
 
 implementation
@@ -26,27 +26,29 @@ var
   LConteudoArquivo: TStringList;
   LCaminhoPastaAplicacao: String;
   LCaminhoArquivo: String;
-  LConteudoTexto : String;
+  LConteudoTexto: String;
 begin
   LConteudoArquivo := TStringList.Create();
   LConteudoTexto := '';
   try
     try
-      LCaminhoPastaAplicacao := TPath.Combine(TPath.GetDocumentsPath, PNomeAplicacao);
+      LCaminhoPastaAplicacao := TPath.Combine(TPath.GetDocumentsPath,
+        PNomeAplicacao);
       LCaminhoArquivo := TPath.Combine(LCaminhoPastaAplicacao, PNomeArquivo);
 
-      LConteudoArquivo.LoadFromFile(LCaminhoArquivo); 
+      LConteudoArquivo.LoadFromFile(LCaminhoArquivo);
       LConteudoTexto := LConteudoArquivo.Text;
     except
       on E: Exception do
-        raise Exception.Create('Erro ao carregar os arquivos de resource.' + 'Arquivos: '+ PNomeArquivo);
+        raise Exception.Create('Erro ao carregar os arquivos de resource.' +
+          'Arquivos: ' + PNomeArquivo);
     end;
 
   finally
     LConteudoArquivo.Free;
   end;
 
-   Result := LConteudoTexto;
+  Result := LConteudoTexto;
 end;
 
 end.
